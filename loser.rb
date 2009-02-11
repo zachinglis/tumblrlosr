@@ -74,7 +74,7 @@ class Tumblr
     new_followers, lost_followers = check_follower_changes
 
     if new_followers.empty? and lost_followers.empty?
-      puts "No new followers."
+      puts "No new or lost followers."
       return
     end
 
