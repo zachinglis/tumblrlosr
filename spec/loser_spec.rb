@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 describe Tumblr do
   before(:all) do
     @tumblr = Tumblr.new
-    @tumblr.agent.
   end
   
   describe '.new' do
@@ -34,6 +33,13 @@ describe Tumblr do
     it "should write followers list and seperate the names by new lines" do
       @tumblr.write_followers
       File.read('followers.txt').should_not be_nil
+    end
+  end
+  
+  describe '#total_followers' do
+    it "should return a number" do
+      puts "Total: #{@tumblr.total_followers}"
+      @tumblr.total_followers.should be_a_kind_of(Integer)
     end
   end
   

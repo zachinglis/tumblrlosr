@@ -44,9 +44,20 @@ class Tumblr
     raise("Error: Please check your internet connection.")
   end
   
+  def get_followers_page(reload=false)
+    if reload or not @followers_page
+      @followers_page = agent.get('http://www.tumblr.com/followers')
+    else
+      @followers_page
+    end
+  end
+  
+  def total_followers
+    get_followers_page.to_s.match(/[0-9]+/)[0] # FIXME
+  end
+  
   def get_followers
-    @followers_page = agent.get('http://www.tumblr.com/followers')
-    @followers = @followers_page.search('#following .username').collect(&:content)
+    @followers = get_followers_page.search('#following .username').collect(&:content)
   end
   
   def read_followers
@@ -83,6 +94,7 @@ class Tumblr
     changes += "-----------------------------\n\n"
 
     changes += "
+    Total followers: #{total_followers}
     New followers: #{new_followers.length}
     Lost followers: #{lost_followers.length}
     \n"
